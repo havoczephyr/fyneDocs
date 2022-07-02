@@ -1,29 +1,28 @@
 package main
 
 import (
-	"time"
-
+	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/widget"
 )
-
-func updateTime(clock *widget.Label) {
-	formatted := time.Now().Format("Time: 03:04:05")
-	clock.SetText(formatted)
-}
 
 func main() {
 	a := app.New()
 	w := a.NewWindow("Clock")
 
-	clock := widget.NewLabel("")
-	updateTime(clock)
+	w.SetContent(widget.NewLabel("Hello World"))
+	w.Show()
+	w.SetMaster()
 
-	w.SetContent(clock)
-	go func() {
-		for range time.Tick(time.Second) {
-			updateTime(clock)
-		}
-	}()
-	w.ShowAndRun()
+	w2 := a.NewWindow("Larger")
+	w2.SetContent(widget.NewLabel("More Content"))
+	w2.Resize(fyne.NewSize(100, 100))
+	w2.Show()
+	w2.SetContent(widget.NewButton("Open new", func() {
+		w3 := a.NewWindow("Third")
+		w3.SetContent(widget.NewLabel("Third"))
+		w3.Show()
+	}))
+
+	a.Run()
 }
